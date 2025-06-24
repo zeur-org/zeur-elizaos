@@ -1,73 +1,54 @@
-import { createAgent, defaultCharacter } from '@elizaos/core';
-import { SqliteDatabaseAdapter } from '@elizaos/adapter-sqlite';
-import { DiscordClientInterface } from '@elizaos/client-discord';
-import { TelegramClientInterface } from '@elizaos/client-telegram';
-import dotenv from 'dotenv';
-import { YieldOptimizerCharacter } from './character.js';
-import { ZeurPlugin } from './plugins/zeur-plugin.js';
-import { logger } from './utils/logger.js';
+import {
+  AgentRuntime,
+  ModelProviderName,
+  CacheManager,
+  MemoryCacheAdapter,
+  DatabaseAdapter,
+} from "@elizaos/core";
+import { SqliteDatabaseAdapter } from "@elizaos/adapter-sqlite";
+import Database from "better-sqlite3";
+import dotenv from "dotenv";
+import { YieldOptimizerCharacter } from "./character.js";
+import { ZeurPlugin } from "./plugins/zeur-plugin.js";
+import { logger } from "./utils/logger.js";
 
 dotenv.config();
 
 async function main() {
-    try {
-        logger.info('Starting Zeur Yield Optimizer Agent...');
+  try {
+    logger.info("Starting Zeur Yield Optimizer Agent...");
 
-        // Initialize database
-        const db = new SqliteDatabaseAdapter(
-            process.env.DATABASE_URL || './data/agent.db'
-        );
+    // Initialize database
+    const db = new Database("agent.db");
+    const databaseAdapter = new SqliteDatabaseAdapter(db);
+    await databaseAdapter.init();
 
-        // Create agent with custom character
-        const agent = createAgent({
-            character: YieldOptimizerCharacter,
-            db,
-            plugins: [
-                ZeurPlugin
-            ]
-        });
+    // Initialize cache manager
+    const cacheAdapter = new MemoryCacheAdapter();
+    const cacheManager = new CacheManager(cacheAdapter);
 
-        // Initialize clients if tokens are provided
-        const clients = [];
+    // Create agent runtime with custom character
+    const runtime = new AgentRuntime({
+      character: YieldOptimizerCharacter,
+      databaseAdapter,
+      plugins: [ZeurPlugin],
+      token: process.env.OPENAI_API_KEY || "",
+      serverUrl: process.env.SERVER_URL || "http://localhost:7998",
+      modelProvider: ModelProviderName.OPENAI,
+      cacheManager,
+    });
 
-        if (process.env.DISCORD_API_TOKEN) {
-            clients.push(
-                new DiscordClientInterface({
-                    token: process.env.DISCORD_API_TOKEN,
-                    applicationId: process.env.DISCORD_APPLICATION_ID
-                })
-            );
-        }
+    logger.info("Zeur Yield Optimizer Agent is now running!");
 
-        if (process.env.TELEGRAM_BOT_TOKEN) {
-            clients.push(
-                new TelegramClientInterface({
-                    token: process.env.TELEGRAM_BOT_TOKEN
-                })
-            );
-        }
-
-        // Start all clients
-        for (const client of clients) {
-            await client.start();
-            logger.info(`Started ${client.constructor.name}`);
-        }
-
-        logger.info('Zeur Yield Optimizer Agent is now running!');
-
-        // Handle graceful shutdown
-        process.on('SIGINT', async () => {
-            logger.info('Shutting down gracefully...');
-            for (const client of clients) {
-                await client.stop();
-            }
-            process.exit(0);
-        });
-
-    } catch (error) {
-        logger.error('Failed to start agent:', error);
-        process.exit(1);
-    }
+    // Handle graceful shutdown
+    process.on("SIGINT", () => {
+      logger.info("Shutting down gracefully...");
+      process.exit(0);
+    });
+  } catch (error) {
+    logger.error("Failed to start agent:", error);
+    process.exit(1);
+  }
 }
 
-main().catch(console.error); 
+main().catch(console.error);
