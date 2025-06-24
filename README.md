@@ -16,24 +16,28 @@ The Zeur Yield Optimizer Agent is a sophisticated AI system designed to:
 ## Key Features
 
 ### 🎯 Intelligent Portfolio Optimization
+
 - Risk-adjusted return calculations
 - Dynamic allocation strategies based on market conditions
 - Automated rebalancing with gas optimization
 - Multi-protocol diversification
 
 ### 📊 Real-time Analytics
+
 - Performance tracking vs benchmarks
 - Sharpe ratio and risk metrics calculation
 - Protocol-specific contribution analysis
 - Gas efficiency monitoring
 
 ### ⚡ Automated Execution
+
 - Smart gas price optimization
 - Transaction batching and sequencing
 - Emergency stop mechanisms
 - Comprehensive error handling
 
 ### 🔍 Advanced Monitoring
+
 - System health checks
 - Transaction status tracking
 - Performance alerts
@@ -58,54 +62,72 @@ src/
 - **Rocket Pool (rETH)**: Decentralized staking network
 - **Morpho (mWETH)**: Lending protocol optimization
 
+## 📚 Documentation
+
+Comprehensive documentation is available in the [`docs/`](./docs/) folder:
+
+- **[📖 Usage Guide](./docs/usage.md)** - Complete setup and usage instructions
+- **[⚙️ Functionality List](./docs/functionalities.md)** - Comprehensive feature overview
+- **[🔌 API Reference](./docs/api.md)** - Technical API documentation
+
 ## Quick Start
 
 ### Prerequisites
 
 - Node.js 18+
 - Ethereum RPC provider (Alchemy, Infura, etc.)
-- Discord/Telegram bot tokens (optional)
+- OpenAI API key for AI functionality
 
 ### Installation
 
 1. Clone and install dependencies:
+
 ```bash
+git clone https://github.com/your-org/zeur-elizaos.git
 cd zeur-elizaos
 npm install
 ```
 
 2. Configure environment:
+
 ```bash
 cp env.example .env
 # Edit .env with your configuration
 ```
 
 3. Build the project:
+
 ```bash
 npm run build
 ```
 
 4. Run the agent:
+
 ```bash
 npm start
 ```
+
+👉 **For detailed setup instructions, see the [Usage Guide](./docs/usage.md)**
 
 ## Configuration
 
 ### Environment Variables
 
 **Blockchain Configuration:**
+
 - `RPC_URL`: Ethereum RPC endpoint
 - `PRIVATE_KEY`: Wallet private key for transactions
 - `VAULT_ETH_ADDRESS`: VaultETH contract address
 
 **Protocol Addresses:**
+
 - `STAKING_ROUTER_LIDO_ADDRESS`: Lido staking router
 - `STAKING_ROUTER_ETHERFI_ADDRESS`: EtherFi staking router
 - `STAKING_ROUTER_ROCKETPOOL_ADDRESS`: Rocket Pool staking router
 - `STAKING_ROUTER_MORPHO_ADDRESS`: Morpho staking router
 
 **Agent Settings:**
+
 - `REBALANCE_FREQUENCY_HOURS`: Rebalancing frequency (default: 24)
 - `MIN_REBALANCE_THRESHOLD`: Minimum threshold for rebalancing (default: 0.05)
 - `MAX_GAS_PRICE_GWEI`: Maximum gas price for transactions (default: 50)
@@ -116,25 +138,30 @@ npm start
 ### Chat Commands
 
 **Position Management:**
+
 - "Show my current positions"
 - "What's my portfolio allocation?"
 - "Check my DeFi balances"
 
 **Optimization:**
+
 - "Optimize my portfolio allocation"
 - "Should I rebalance now?"
 - "Analyze current market strategy"
 
 **Analytics:**
+
 - "Show performance analytics"
 - "Track my yield performance"
 - "Generate yield report"
 
 **Execution:**
+
 - "Execute the rebalance"
 - "Rebalance my portfolio now"
 
 **Monitoring:**
+
 - "Show system status"
 - "Check performance metrics"
 - "Update market data"
@@ -142,6 +169,7 @@ npm start
 ### API Integration
 
 The agent can be integrated with:
+
 - Discord servers
 - Telegram groups
 - Twitter for automated posting
@@ -158,6 +186,7 @@ The agent can be integrated with:
 ## Risk Disclaimer
 
 ⚠️ **Important**: This agent interacts with DeFi protocols which carry inherent risks including:
+
 - Smart contract bugs
 - Protocol governance risks
 - Market volatility
@@ -165,6 +194,7 @@ The agent can be integrated with:
 - Gas cost volatility
 
 Always:
+
 - Test thoroughly on testnets first
 - Start with small amounts
 - Monitor positions actively
@@ -202,10 +232,11 @@ MIT License - see LICENSE file for details
 ## Support
 
 For issues, questions, or contributions:
+
 - Open GitHub issues for bugs
 - Join our Discord for community support
 - Check documentation for detailed guides
 
 ---
 
-**Disclaimer**: This software is provided as-is. Users are responsible for understanding the risks and properly configuring the system for their needs. 
+**Disclaimer**: This software is provided as-is. Users are responsible for understanding the risks and properly configuring the system for their needs.
